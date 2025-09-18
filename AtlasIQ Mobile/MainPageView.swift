@@ -78,7 +78,7 @@ struct MainPageView: View {
                                     // Liquid glass background
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(.ultraThinMaterial)
-                                        .opacity(0.8)
+                                        .opacity(0.3)
                                     
                                     // Subtle gradient overlay
                                     RoundedRectangle(cornerRadius: 20)
@@ -144,7 +144,7 @@ struct MainPageView: View {
                                     // Liquid glass background
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(.ultraThinMaterial)
-                                        .opacity(0.8)
+                                        .opacity(0.3)
                                     
                                     // Subtle gradient overlay
                                     RoundedRectangle(cornerRadius: 20)
@@ -210,7 +210,7 @@ struct MainPageView: View {
                                     // Liquid glass background
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(.ultraThinMaterial)
-                                        .opacity(0.8)
+                                        .opacity(0.3)
                                     
                                     // Subtle gradient overlay
                                     RoundedRectangle(cornerRadius: 20)
