@@ -111,7 +111,6 @@ struct MainPageView: View {
                                 }
                             )
                             .shadow(color: Color.black.opacity(0.3), radius: 8, x: 0, y: 4)
-                            .shadow(color: Color.blue.opacity(0.2), radius: 12, x: 0, y: 0)
                         }
                         
                         // Option 2: Threat Assessment
