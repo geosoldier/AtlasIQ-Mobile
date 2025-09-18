@@ -202,7 +202,6 @@ struct MainPageView: View {
                             .shadow(color: Color.black.opacity(0.3), radius: 8, x: 0, y: 4)
                         }
                     }
-                        .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
                     
                     Spacer()
                 }
