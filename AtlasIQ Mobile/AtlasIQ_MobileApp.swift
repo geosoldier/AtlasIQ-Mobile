@@ -2,7 +2,7 @@
 //  AtlasIQ_MobileApp.swift
 //  AtlasIQ Mobile
 //
-//  Created by Eric Adams on 9/16/25.
+//  Created by EWA Kalyna Vision on 9/16/25.
 //
 
 import SwiftUI
