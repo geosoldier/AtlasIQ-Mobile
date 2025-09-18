@@ -53,7 +53,7 @@ struct MainPageView: View {
                             HStack {
                                 Image(systemName: "globe")
                                     .font(.title2)
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(.white)
                                 
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Social Media Intelligence")
@@ -77,8 +77,8 @@ struct MainPageView: View {
                                 ZStack {
                                     // Liquid glass background
                                     RoundedRectangle(cornerRadius: 20)
-                                        .fill(.ultraThinMaterial)
-                                        .opacity(0.3)
+                                        .fill(Color.clear)
+                                        .background(Color.white.opacity(0.1))
                                     
                                     // Subtle gradient overlay
                                     RoundedRectangle(cornerRadius: 20)
@@ -118,7 +118,7 @@ struct MainPageView: View {
                             HStack {
                                 Image(systemName: "shield.checkered")
                                     .font(.title2)
-                                    .foregroundColor(.red)
+                                    .foregroundColor(.white)
                                 
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Threat Assessment")
@@ -142,8 +142,8 @@ struct MainPageView: View {
                                 ZStack {
                                     // Liquid glass background
                                     RoundedRectangle(cornerRadius: 20)
-                                        .fill(.ultraThinMaterial)
-                                        .opacity(0.3)
+                                        .fill(Color.clear)
+                                        .background(Color.white.opacity(0.1))
                                     
                                     // Subtle gradient overlay
                                     RoundedRectangle(cornerRadius: 20)
@@ -184,7 +184,7 @@ struct MainPageView: View {
                             HStack {
                                 Image(systemName: "doc.text.magnifyingglass")
                                     .font(.title2)
-                                    .foregroundColor(.green)
+                                    .foregroundColor(.white)
                                 
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Intelligence Reports")
@@ -208,8 +208,8 @@ struct MainPageView: View {
                                 ZStack {
                                     // Liquid glass background
                                     RoundedRectangle(cornerRadius: 20)
-                                        .fill(.ultraThinMaterial)
-                                        .opacity(0.3)
+                                        .fill(Color.clear)
+                                        .background(Color.white.opacity(0.1))
                                     
                                     // Subtle gradient overlay
                                     RoundedRectangle(cornerRadius: 20)
