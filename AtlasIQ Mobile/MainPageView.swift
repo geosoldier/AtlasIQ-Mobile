@@ -202,6 +202,7 @@ struct MainPageView: View {
                             .shadow(color: Color.black.opacity(0.3), radius: 8, x: 0, y: 4)
                         }
                     }
+                        .padding(.horizontal, 20)
                     
                     Spacer()
                 }
