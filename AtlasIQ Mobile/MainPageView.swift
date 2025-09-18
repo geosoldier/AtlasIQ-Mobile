@@ -75,38 +75,24 @@ struct MainPageView: View {
                             .frame(maxWidth: .infinity)
                             .background(
                                 ZStack {
-                                    // Liquid glass background
+                                    // Base clear background
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(Color.clear)
-                                        .background(Color.white.opacity(0.1))
-                                    
-                                    // Subtle gradient overlay
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .fill(
-                                            LinearGradient(
-                                                gradient: Gradient(colors: [
-                                                    Color.white.opacity(0.1),
-                                                    Color.clear,
-                                                    Color.black.opacity(0.1)
-                                                ]),
-                                                startPoint: .topLeading,
-                                                endPoint: .bottomTrailing
-                                            )
-                                        )
+                                        .background(Color.white.opacity(0.05))
                                     
                                     // Beveled edge effect
                                     RoundedRectangle(cornerRadius: 20)
                                         .stroke(
                                             LinearGradient(
                                                 gradient: Gradient(colors: [
-                                                    Color.white.opacity(0.3),
+                                                    Color.white.opacity(0.4),
                                                     Color.clear,
-                                                    Color.black.opacity(0.2)
+                                                    Color.black.opacity(0.3)
                                                 ]),
                                                 startPoint: .topLeading,
                                                 endPoint: .bottomTrailing
                                             ),
-                                            lineWidth: 1
+                                            lineWidth: 1.5
                                         )
                                 }
                             )
@@ -140,38 +126,24 @@ struct MainPageView: View {
                             .frame(maxWidth: .infinity)
                             .background(
                                 ZStack {
-                                    // Liquid glass background
+                                    // Base clear background
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(Color.clear)
-                                        .background(Color.white.opacity(0.1))
-                                    
-                                    // Subtle gradient overlay
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .fill(
-                                            LinearGradient(
-                                                gradient: Gradient(colors: [
-                                                    Color.white.opacity(0.1),
-                                                    Color.clear,
-                                                    Color.black.opacity(0.1)
-                                                ]),
-                                                startPoint: .topLeading,
-                                                endPoint: .bottomTrailing
-                                            )
-                                        )
+                                        .background(Color.white.opacity(0.05))
                                     
                                     // Beveled edge effect
                                     RoundedRectangle(cornerRadius: 20)
                                         .stroke(
                                             LinearGradient(
                                                 gradient: Gradient(colors: [
-                                                    Color.white.opacity(0.3),
+                                                    Color.white.opacity(0.4),
                                                     Color.clear,
-                                                    Color.black.opacity(0.2)
+                                                    Color.black.opacity(0.3)
                                                 ]),
                                                 startPoint: .topLeading,
                                                 endPoint: .bottomTrailing
                                             ),
-                                            lineWidth: 1
+                                            lineWidth: 1.5
                                         )
                                 }
                             )
@@ -206,46 +178,31 @@ struct MainPageView: View {
                             .frame(maxWidth: .infinity)
                             .background(
                                 ZStack {
-                                    // Liquid glass background
+                                    // Base clear background
                                     RoundedRectangle(cornerRadius: 20)
                                         .fill(Color.clear)
-                                        .background(Color.white.opacity(0.1))
-                                    
-                                    // Subtle gradient overlay
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .fill(
-                                            LinearGradient(
-                                                gradient: Gradient(colors: [
-                                                    Color.white.opacity(0.1),
-                                                    Color.clear,
-                                                    Color.black.opacity(0.1)
-                                                ]),
-                                                startPoint: .topLeading,
-                                                endPoint: .bottomTrailing
-                                            )
-                                        )
+                                        .background(Color.white.opacity(0.05))
                                     
                                     // Beveled edge effect
                                     RoundedRectangle(cornerRadius: 20)
                                         .stroke(
                                             LinearGradient(
                                                 gradient: Gradient(colors: [
-                                                    Color.white.opacity(0.3),
+                                                    Color.white.opacity(0.4),
                                                     Color.clear,
-                                                    Color.black.opacity(0.2)
+                                                    Color.black.opacity(0.3)
                                                 ]),
                                                 startPoint: .topLeading,
                                                 endPoint: .bottomTrailing
                                             ),
-                                            lineWidth: 1
+                                            lineWidth: 1.5
                                         )
                                 }
                             )
                             .shadow(color: Color.black.opacity(0.3), radius: 8, x: 0, y: 4)
-                            .shadow(color: Color.green.opacity(0.2), radius: 12, x: 0, y: 0)
                         }
                     }
-                    .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
+                        .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
                     
                     Spacer()
                 }
