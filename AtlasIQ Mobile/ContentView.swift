@@ -8,6 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var showMainPage = false
+    
+    var body: some View {
+        Group {
+            if showMainPage {
+                MainPageView()
+            } else {
+                SplashScreenView()
+            }
+        }
+        .onAppear {
+            // Show splash screen for 2 seconds, then navigate to main page
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    showMainPage = true
+                }
+            }
+        }
+    }
+}
+
+struct SplashScreenView: View {
     var body: some View {
         ZStack {
             // Background - Satellite map focused on DC area
