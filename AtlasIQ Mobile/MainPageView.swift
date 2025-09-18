@@ -47,7 +47,7 @@ struct MainPageView: View {
                     Spacer()
                     
                     // Main Options
-                    VStack(spacing: 20) {
+                        VStack(spacing: 16) {
                         // Option 1: Social Media Intelligence
                         NavigationLink(destination: SocialMediaIntelligenceView()) {
                             HStack {
@@ -59,9 +59,9 @@ struct MainPageView: View {
                                     Text("Social Media Intelligence")
                                         .font(.headline)
                                         .foregroundColor(.white)
-                                    Text("Monitor platforms, analyze sentiment")
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
+                                        Text("Monitor platforms, analyze sentiment")
+                                            .font(.caption2)
+                                            .foregroundColor(.gray)
                                 }
                                 
                                 Spacer()
@@ -70,8 +70,8 @@ struct MainPageView: View {
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             }
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 16)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 12)
                             .frame(maxWidth: .infinity)
                             .background(
                                 ZStack {
@@ -110,9 +110,9 @@ struct MainPageView: View {
                                     Text("Threat Assessment")
                                         .font(.headline)
                                         .foregroundColor(.white)
-                                    Text("Predictive analytics and risk analysis")
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
+                                        Text("Predictive analytics and risk analysis")
+                                            .font(.caption2)
+                                            .foregroundColor(.gray)
                                 }
                                 
                                 Spacer()
@@ -121,8 +121,8 @@ struct MainPageView: View {
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             }
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 16)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 12)
                             .frame(maxWidth: .infinity)
                             .background(
                                 ZStack {
@@ -162,9 +162,9 @@ struct MainPageView: View {
                                     Text("Intelligence Reports")
                                         .font(.headline)
                                         .foregroundColor(.white)
-                                    Text("Generate comprehensive OSINT reports")
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
+                                        Text("Generate comprehensive OSINT reports")
+                                            .font(.caption2)
+                                            .foregroundColor(.gray)
                                 }
                                 
                                 Spacer()
@@ -173,8 +173,8 @@ struct MainPageView: View {
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             }
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 16)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 12)
                             .frame(maxWidth: .infinity)
                             .background(
                                 ZStack {
