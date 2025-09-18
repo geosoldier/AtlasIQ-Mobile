@@ -70,13 +70,48 @@ struct MainPageView: View {
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             }
-                            .padding()
-                            .background(Color.black.opacity(0.6))
-                            .cornerRadius(12)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.blue.opacity(0.3), lineWidth: 1)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 16)
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                ZStack {
+                                    // Liquid glass background
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(.ultraThinMaterial)
+                                        .opacity(0.8)
+                                    
+                                    // Subtle gradient overlay
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [
+                                                    Color.white.opacity(0.1),
+                                                    Color.clear,
+                                                    Color.black.opacity(0.1)
+                                                ]),
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            )
+                                        )
+                                    
+                                    // Beveled edge effect
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [
+                                                    Color.white.opacity(0.3),
+                                                    Color.clear,
+                                                    Color.black.opacity(0.2)
+                                                ]),
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            ),
+                                            lineWidth: 1
+                                        )
+                                }
                             )
+                            .shadow(color: Color.black.opacity(0.3), radius: 8, x: 0, y: 4)
+                            .shadow(color: Color.blue.opacity(0.2), radius: 12, x: 0, y: 0)
                         }
                         
                         // Option 2: Threat Assessment
@@ -101,13 +136,48 @@ struct MainPageView: View {
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             }
-                            .padding()
-                            .background(Color.black.opacity(0.6))
-                            .cornerRadius(12)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.red.opacity(0.3), lineWidth: 1)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 16)
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                ZStack {
+                                    // Liquid glass background
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(.ultraThinMaterial)
+                                        .opacity(0.8)
+                                    
+                                    // Subtle gradient overlay
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [
+                                                    Color.white.opacity(0.1),
+                                                    Color.clear,
+                                                    Color.black.opacity(0.1)
+                                                ]),
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            )
+                                        )
+                                    
+                                    // Beveled edge effect
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [
+                                                    Color.white.opacity(0.3),
+                                                    Color.clear,
+                                                    Color.black.opacity(0.2)
+                                                ]),
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            ),
+                                            lineWidth: 1
+                                        )
+                                }
                             )
+                            .shadow(color: Color.black.opacity(0.3), radius: 8, x: 0, y: 4)
+                            .shadow(color: Color.red.opacity(0.2), radius: 12, x: 0, y: 0)
                         }
                         
                         // Option 3: Intelligence Reports
@@ -132,16 +202,51 @@ struct MainPageView: View {
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             }
-                            .padding()
-                            .background(Color.black.opacity(0.6))
-                            .cornerRadius(12)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.green.opacity(0.3), lineWidth: 1)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 16)
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                ZStack {
+                                    // Liquid glass background
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(.ultraThinMaterial)
+                                        .opacity(0.8)
+                                    
+                                    // Subtle gradient overlay
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [
+                                                    Color.white.opacity(0.1),
+                                                    Color.clear,
+                                                    Color.black.opacity(0.1)
+                                                ]),
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            )
+                                        )
+                                    
+                                    // Beveled edge effect
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [
+                                                    Color.white.opacity(0.3),
+                                                    Color.clear,
+                                                    Color.black.opacity(0.2)
+                                                ]),
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            ),
+                                            lineWidth: 1
+                                        )
+                                }
                             )
+                            .shadow(color: Color.black.opacity(0.3), radius: 8, x: 0, y: 4)
+                            .shadow(color: Color.green.opacity(0.2), radius: 12, x: 0, y: 0)
                         }
                     }
-                    .padding(.horizontal, 20)
+                    .frame(maxWidth: UIScreen.main.bounds.width * 0.8)
                     
                     Spacer()
                 }
