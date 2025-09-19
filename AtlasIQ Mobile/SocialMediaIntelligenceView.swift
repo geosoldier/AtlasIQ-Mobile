@@ -18,7 +18,11 @@ struct SocialMediaIntelligenceView: View {
     @State private var errorMessage: String?
     @State private var showLocationPermission = false
     @State private var showBreakdown = false
-    @State private var selectedBreakdown: SentimentBreakdown?
+    @State private var selectedBreakdown: SentimentBreakdown? {
+        didSet {
+            print("selectedBreakdown changed to: \(selectedBreakdown?.factors.count ?? 0) factors")
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -58,6 +62,9 @@ struct SocialMediaIntelligenceView: View {
                         showBreakdown: $showBreakdown,
                         selectedBreakdown: $selectedBreakdown
                     )
+                    .onAppear {
+                        print("SentimentResultsView appeared")
+                    }
                 } else if let error = errorMessage {
                     ErrorView(message: error) {
                         analyzeLocalSentiment()
@@ -114,6 +121,9 @@ struct SocialMediaIntelligenceView: View {
                     .font(.caption)
                     .foregroundColor(.red)
                     .padding()
+                    .onAppear {
+                        print("Sheet appeared with selectedBreakdown: \(selectedBreakdown?.factors.count ?? 0) factors")
+                    }
                 
                 if let breakdown = selectedBreakdown {
                     SentimentBreakdownView(breakdown: breakdown)
