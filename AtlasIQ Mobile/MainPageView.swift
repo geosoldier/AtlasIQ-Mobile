@@ -60,7 +60,7 @@ struct MainPageView: View {
                                         .font(.headline)
                                         .foregroundColor(.white)
                                         Text("Monitor platforms, analyze sentiment")
-                                            .font(.caption2)
+                                            .font(.caption)
                                             .foregroundColor(.gray)
                                 }
                                 
@@ -111,7 +111,7 @@ struct MainPageView: View {
                                         .font(.headline)
                                         .foregroundColor(.white)
                                         Text("Predictive analytics and risk analysis")
-                                            .font(.caption2)
+                                            .font(.caption)
                                             .foregroundColor(.gray)
                                 }
                                 
@@ -163,7 +163,7 @@ struct MainPageView: View {
                                         .font(.headline)
                                         .foregroundColor(.white)
                                         Text("Generate comprehensive OSINT reports")
-                                            .font(.caption2)
+                                            .font(.caption)
                                             .foregroundColor(.gray)
                                 }
                                 
