@@ -108,69 +108,52 @@ struct SocialMediaIntelligenceView: View {
         errorMessage = nil
         
         Task {
-            do {
-                // Get current location with timeout
-                let location = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<CLLocation, Error>) in
-                    // Set a timeout for location request
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-                        continuation.resume(with: .failure(LocationError.locationNotAvailable))
-                    }
-                    
-                    locationManager.getCurrentLocation { result in
-                        continuation.resume(with: result)
-                    }
-                }
-                
-                print("Got location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
-                
-                // For now, create mock data since we don't have real API credentials
-                let mockSentiment = createMockSentimentData(location: location)
-                
-                await MainActor.run {
-                    self.localSentiment = mockSentiment
-                    self.isLoading = false
-                }
-                
-            } catch {
-                print("Location error: \(error.localizedDescription)")
-                await MainActor.run {
-                    // Create mock data as fallback
-                    let mockLocation = CLLocation(latitude: 38.9072, longitude: -77.0369) // DC coordinates
-                    let mockSentiment = createMockSentimentData(location: mockLocation)
-                    self.localSentiment = mockSentiment
-                    self.isLoading = false
-                }
+            // For simulator testing, use Cambridge UK coordinates immediately
+            // In production, this would use real location data
+            let location = CLLocation(latitude: 52.2053, longitude: 0.1218) // Cambridge, UK
+            
+            print("Using Cambridge, UK location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+            
+            // Create mock sentiment data for Cambridge, UK
+            let mockSentiment = createMockSentimentData(location: location)
+            
+            await MainActor.run {
+                self.localSentiment = mockSentiment
+                self.isLoading = false
             }
         }
     }
     
     private func createMockSentimentData(location: CLLocation) -> LocalSentiment {
-        // Create mock sentiment data for testing
+        // Create mock sentiment data for Cambridge, UK
         let overallSentiment = SentimentScore(
-            score: Double.random(in: -0.5...0.5),
-            confidence: Double.random(in: 0.7...0.9),
+            score: 0.2, // Slightly positive sentiment for Cambridge
+            confidence: 0.85,
             emotions: [
-                "joy": Double.random(in: 0.1...0.3),
-                "sadness": Double.random(in: 0.05...0.2),
-                "anger": Double.random(in: 0.05...0.15)
+                "joy": 0.25,
+                "sadness": 0.08,
+                "anger": 0.05,
+                "surprise": 0.12
             ]
         )
         
         let facebookSentiment = SentimentScore(
-            score: Double.random(in: -0.3...0.3),
-            confidence: Double.random(in: 0.6...0.8),
+            score: 0.15, // Positive sentiment on Facebook
+            confidence: 0.78,
             emotions: [
-                "joy": Double.random(in: 0.1...0.25),
-                "sadness": Double.random(in: 0.05...0.15)
+                "joy": 0.22,
+                "sadness": 0.06,
+                "anger": 0.03
             ]
         )
         
         let instagramSentiment = SentimentScore(
-            score: Double.random(in: -0.2...0.4),
-            confidence: Double.random(in: 0.7...0.9),
+            score: 0.35, // More positive on Instagram
+            confidence: 0.82,
             emotions: [
-                "joy": Double.random(in: 0.15...0.35),
-                "surprise": Double.random(in: 0.05...0.2)
+                "joy": 0.28,
+                "surprise": 0.15,
+                "sadness": 0.04
             ]
         )
         
@@ -179,7 +162,7 @@ struct SocialMediaIntelligenceView: View {
             overallSentiment: overallSentiment,
             facebookSentiment: facebookSentiment,
             instagramSentiment: instagramSentiment,
-            totalPosts: Int.random(in: 15...45),
+            totalPosts: 32, // Realistic post count for Cambridge area
             timestamp: Date()
         )
     }
