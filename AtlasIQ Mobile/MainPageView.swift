@@ -55,7 +55,7 @@ struct MainPageView: View {
                                     .font(.title2)
                                     .foregroundColor(.white)
                                 
-                                VStack(alignment: .center, spacing: 4) {
+                                VStack(alignment: .leading, spacing: 4) {
                                     Text("Social Media Intelligence")
                                         .font(.headline)
                                         .foregroundColor(.white)
@@ -106,7 +106,7 @@ struct MainPageView: View {
                                     .font(.title2)
                                     .foregroundColor(.white)
                                 
-                                VStack(alignment: .center, spacing: 4) {
+                                VStack(alignment: .leading, spacing: 4) {
                                     Text("Threat Assessment")
                                         .font(.headline)
                                         .foregroundColor(.white)
@@ -158,7 +158,7 @@ struct MainPageView: View {
                                     .font(.title2)
                                     .foregroundColor(.white)
                                 
-                                VStack(alignment: .center, spacing: 4) {
+                                VStack(alignment: .leading, spacing: 4) {
                                     Text("Intelligence Reports")
                                         .font(.headline)
                                         .foregroundColor(.white)
