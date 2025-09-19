@@ -23,7 +23,7 @@ struct SocialMediaIntelligenceView: View {
             print("selectedBreakdown changed to: \(selectedBreakdown?.factors.count ?? 0) factors")
         }
     }
-    @State private var breakdownData: SentimentBreakdown?
+    @StateObject private var breakdownStore = BreakdownStore()
     
     var body: some View {
         ZStack {
@@ -62,7 +62,7 @@ struct SocialMediaIntelligenceView: View {
                         sentiment: sentiment,
                         showBreakdown: $showBreakdown,
                         selectedBreakdown: $selectedBreakdown,
-                        breakdownData: $breakdownData
+                        breakdownStore: breakdownStore
                     )
                     .onAppear {
                         print("SentimentResultsView appeared")
@@ -119,13 +119,13 @@ struct SocialMediaIntelligenceView: View {
         }
         .sheet(isPresented: $showBreakdown) {
             VStack {
-                Text("Debug: showBreakdown=\(showBreakdown), selectedBreakdown=\(selectedBreakdown?.factors.count ?? 0), breakdownData=\(breakdownData?.factors.count ?? 0)")
+                Text("Debug: showBreakdown=\(showBreakdown), selectedBreakdown=\(selectedBreakdown?.factors.count ?? 0), breakdownStore=\(breakdownStore.breakdown?.factors.count ?? 0)")
                     .font(.caption)
                     .foregroundColor(.red)
                     .padding()
                     .onAppear {
                         print("Sheet appeared with selectedBreakdown: \(selectedBreakdown?.factors.count ?? 0) factors")
-                        print("Sheet appeared with breakdownData: \(breakdownData?.factors.count ?? 0) factors")
+                        print("Sheet appeared with breakdownStore: \(breakdownStore.breakdown?.factors.count ?? 0) factors")
                     }
                 
                 Text("selectedBreakdown is nil: \(selectedBreakdown == nil)")
@@ -133,12 +133,12 @@ struct SocialMediaIntelligenceView: View {
                     .foregroundColor(.blue)
                     .padding()
                 
-                Text("breakdownData is nil: \(breakdownData == nil)")
+                Text("breakdownStore is nil: \(breakdownStore.breakdown == nil)")
                     .font(.caption)
                     .foregroundColor(.purple)
                     .padding()
                 
-                if let breakdown = breakdownData ?? selectedBreakdown {
+                if let breakdown = breakdownStore.breakdown ?? selectedBreakdown {
                     Text("Breakdown found: \(breakdown.factors.count) factors")
                         .font(.caption)
                         .foregroundColor(.green)
@@ -307,7 +307,7 @@ struct SentimentResultsView: View {
     let sentiment: LocalSentiment
     @Binding var showBreakdown: Bool
     @Binding var selectedBreakdown: SentimentBreakdown?
-    @Binding var breakdownData: SentimentBreakdown?
+    @ObservedObject var breakdownStore: BreakdownStore
     
     var body: some View {
         VStack(spacing: 16) {
@@ -321,9 +321,9 @@ struct SentimentResultsView: View {
             ) {
                 print("Overall sentiment tapped - breakdown: \(sentiment.overallSentiment.breakdown)")
                 selectedBreakdown = sentiment.overallSentiment.breakdown
-                breakdownData = sentiment.overallSentiment.breakdown
+                breakdownStore.setBreakdown(sentiment.overallSentiment.breakdown)
                 print("selectedBreakdown set to: \(selectedBreakdown?.factors.count ?? 0) factors")
-                print("breakdownData set to: \(breakdownData?.factors.count ?? 0) factors")
+                print("breakdownStore set to: \(breakdownStore.breakdown?.factors.count ?? 0) factors")
                 showBreakdown = true
                 print("showBreakdown set to: \(showBreakdown)")
             }
@@ -574,6 +574,16 @@ struct ErrorView: View {
             .buttonStyle(.borderedProminent)
             .controlSize(.regular)
         }
+    }
+}
+
+// MARK: - Breakdown Store
+class BreakdownStore: ObservableObject {
+    @Published var breakdown: SentimentBreakdown?
+    
+    func setBreakdown(_ breakdown: SentimentBreakdown) {
+        print("BreakdownStore: Setting breakdown with \(breakdown.factors.count) factors")
+        self.breakdown = breakdown
     }
 }
 
