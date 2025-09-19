@@ -311,12 +311,16 @@ struct SentimentResultsView: View {
         }
         .sheet(isPresented: $showBreakdown) {
             if let breakdown = selectedBreakdown {
-                print("Presenting breakdown with \(breakdown.factors.count) factors")
                 SentimentBreakdownView(breakdown: breakdown)
+                    .onAppear {
+                        print("Presenting breakdown with \(breakdown.factors.count) factors")
+                    }
             } else {
-                print("No breakdown selected")
                 Text("No breakdown data available")
                     .padding()
+                    .onAppear {
+                        print("No breakdown selected")
+                    }
             }
         }
     }
