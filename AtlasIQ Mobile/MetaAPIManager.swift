@@ -50,6 +50,19 @@ struct SentimentScore {
     let score: Double // -1.0 to 1.0 (negative to positive)
     let confidence: Double // 0.0 to 1.0
     let emotions: [String: Double] // emotion -> confidence
+    let breakdown: SentimentBreakdown // Detailed factors driving the sentiment
+}
+
+struct SentimentBreakdown {
+    let factors: [SentimentFactor]
+    let summary: String
+}
+
+struct SentimentFactor {
+    let category: String // e.g., "Transportation", "Safety", "Events"
+    let description: String // e.g., "Traffic delays reported"
+    let impact: Double // -1.0 to 1.0 (how much this factor contributes)
+    let source: String // e.g., "Facebook", "Instagram", "News"
 }
 
 struct LocalSentiment {

@@ -140,6 +140,18 @@ struct SocialMediaIntelligenceView: View {
     
     private func createMockSentimentData(location: CLLocation) -> LocalSentiment {
         // Create mock sentiment data for Cambridge, UK
+        
+        // Overall sentiment breakdown
+        let overallBreakdown = SentimentBreakdown(
+            factors: [
+                SentimentFactor(category: "Transportation", description: "Traffic delays reported on main routes", impact: -0.3, source: "Facebook"),
+                SentimentFactor(category: "Events", description: "University graduation ceremonies creating positive buzz", impact: 0.4, source: "Instagram"),
+                SentimentFactor(category: "Weather", description: "Sunny weather improving community mood", impact: 0.2, source: "Facebook"),
+                SentimentFactor(category: "Safety", description: "Minor increase in petty crime reports", impact: -0.1, source: "News")
+            ],
+            summary: "Overall sentiment is positive due to celebratory events and good weather, despite some traffic concerns and minor safety issues."
+        )
+        
         let overallSentiment = SentimentScore(
             score: 0.2, // Slightly positive sentiment for Cambridge
             confidence: 0.85,
@@ -148,7 +160,18 @@ struct SocialMediaIntelligenceView: View {
                 "sadness": 0.08,
                 "anger": 0.05,
                 "surprise": 0.12
-            ]
+            ],
+            breakdown: overallBreakdown
+        )
+        
+        // Facebook sentiment breakdown
+        let facebookBreakdown = SentimentBreakdown(
+            factors: [
+                SentimentFactor(category: "Transportation", description: "Multiple posts about traffic congestion", impact: -0.4, source: "Facebook"),
+                SentimentFactor(category: "Community", description: "Positive posts about local businesses", impact: 0.3, source: "Facebook"),
+                SentimentFactor(category: "Events", description: "Graduation celebration posts", impact: 0.2, source: "Facebook")
+            ],
+            summary: "Facebook sentiment is moderately positive with community celebrations outweighing traffic complaints."
         )
         
         let facebookSentiment = SentimentScore(
@@ -158,7 +181,18 @@ struct SocialMediaIntelligenceView: View {
                 "joy": 0.22,
                 "sadness": 0.06,
                 "anger": 0.03
-            ]
+            ],
+            breakdown: facebookBreakdown
+        )
+        
+        // Instagram sentiment breakdown
+        let instagramBreakdown = SentimentBreakdown(
+            factors: [
+                SentimentFactor(category: "Events", description: "Graduation photos and celebrations", impact: 0.5, source: "Instagram"),
+                SentimentFactor(category: "Weather", description: "Beautiful sunset photos shared", impact: 0.3, source: "Instagram"),
+                SentimentFactor(category: "Food", description: "Positive reviews of local restaurants", impact: 0.2, source: "Instagram")
+            ],
+            summary: "Instagram sentiment is very positive with graduation celebrations and beautiful weather photos dominating the feed."
         )
         
         let instagramSentiment = SentimentScore(
@@ -168,7 +202,8 @@ struct SocialMediaIntelligenceView: View {
                 "joy": 0.28,
                 "surprise": 0.15,
                 "sadness": 0.04
-            ]
+            ],
+            breakdown: instagramBreakdown
         )
         
         return LocalSentiment(
@@ -215,6 +250,8 @@ struct WelcomeView: View {
 
 struct SentimentResultsView: View {
     let sentiment: LocalSentiment
+    @State private var showBreakdown = false
+    @State private var selectedBreakdown: SentimentBreakdown?
     
     var body: some View {
         VStack(spacing: 16) {
@@ -223,8 +260,12 @@ struct SentimentResultsView: View {
                 title: "Overall Sentiment",
                 score: sentiment.overallSentiment.score,
                 confidence: sentiment.overallSentiment.confidence,
-                color: sentimentColor(sentiment.overallSentiment.score)
-            )
+                color: sentimentColor(sentiment.overallSentiment.score),
+                isTappable: true
+            ) {
+                selectedBreakdown = sentiment.overallSentiment.breakdown
+                showBreakdown = true
+            }
             
             // Platform-specific sentiment
             HStack(spacing: 12) {
@@ -232,15 +273,23 @@ struct SentimentResultsView: View {
                     title: "Facebook",
                     score: sentiment.facebookSentiment.score,
                     confidence: sentiment.facebookSentiment.confidence,
-                    color: sentimentColor(sentiment.facebookSentiment.score)
-                )
+                    color: sentimentColor(sentiment.facebookSentiment.score),
+                    isTappable: true
+                ) {
+                    selectedBreakdown = sentiment.facebookSentiment.breakdown
+                    showBreakdown = true
+                }
                 
                 SentimentCard(
                     title: "Instagram",
                     score: sentiment.instagramSentiment.score,
                     confidence: sentiment.instagramSentiment.confidence,
-                    color: sentimentColor(sentiment.instagramSentiment.score)
-                )
+                    color: sentimentColor(sentiment.instagramSentiment.score),
+                    isTappable: true
+                ) {
+                    selectedBreakdown = sentiment.instagramSentiment.breakdown
+                    showBreakdown = true
+                }
             }
             
             // Statistics
@@ -257,6 +306,11 @@ struct SentimentResultsView: View {
                 }
                 .font(.caption)
                 .foregroundColor(.white.opacity(0.8))
+            }
+        }
+        .sheet(isPresented: $showBreakdown) {
+            if let breakdown = selectedBreakdown {
+                SentimentBreakdownView(breakdown: breakdown)
             }
         }
     }
@@ -277,6 +331,17 @@ struct SentimentCard: View {
     let score: Double
     let confidence: Double
     let color: Color
+    let isTappable: Bool
+    let onTap: (() -> Void)?
+    
+    init(title: String, score: Double, confidence: Double, color: Color, isTappable: Bool = false, onTap: (() -> Void)? = nil) {
+        self.title = title
+        self.score = score
+        self.confidence = confidence
+        self.color = color
+        self.isTappable = isTappable
+        self.onTap = onTap
+    }
     
     var body: some View {
         VStack(spacing: 8) {
@@ -293,10 +358,22 @@ struct SentimentCard: View {
             Text("Confidence: \(Int(confidence * 100))%")
                 .font(.caption2)
                 .foregroundColor(.white.opacity(0.7))
+            
+            if isTappable {
+                Text("Tap for details")
+                    .font(.caption2)
+                    .foregroundColor(.white.opacity(0.6))
+                    .italic()
+            }
         }
         .padding()
         .background(Color.white.opacity(0.1))
         .cornerRadius(12)
+        .onTapGesture {
+            if isTappable {
+                onTap?()
+            }
+        }
     }
     
     private func sentimentText(_ score: Double) -> String {
@@ -306,6 +383,107 @@ struct SentimentCard: View {
             return "Negative"
         } else {
             return "Neutral"
+        }
+    }
+}
+
+struct SentimentBreakdownView: View {
+    let breakdown: SentimentBreakdown
+    @Environment(\.dismiss) private var dismiss
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    // Summary
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Summary")
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                        
+                        Text(breakdown.summary)
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.leading)
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
+                    
+                    // Factors
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Contributing Factors")
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                        
+                        ForEach(Array(breakdown.factors.enumerated()), id: \.offset) { index, factor in
+                            SentimentFactorRow(factor: factor)
+                        }
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
+                }
+                .padding()
+            }
+            .navigationTitle("Sentiment Breakdown")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct SentimentFactorRow: View {
+    let factor: SentimentFactor
+    
+    var body: some View {
+        HStack(alignment: .top, spacing: 12) {
+            // Impact indicator
+            Circle()
+                .fill(impactColor(factor.impact))
+                .frame(width: 12, height: 12)
+                .padding(.top, 2)
+            
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    Text(factor.category)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.primary)
+                    
+                    Spacer()
+                    
+                    Text(factor.source)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 2)
+                        .background(Color(.systemGray5))
+                        .cornerRadius(4)
+                }
+                
+                Text(factor.description)
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.leading)
+            }
+        }
+        .padding(.vertical, 4)
+    }
+    
+    private func impactColor(_ impact: Double) -> Color {
+        if impact > 0.2 {
+            return Color(red: 0.0, green: 1.0, blue: 0.0) // Bright green
+        } else if impact < -0.2 {
+            return Color(red: 1.0, green: 0.0, blue: 0.0) // Bright red
+        } else {
+            return Color(red: 1.0, green: 1.0, blue: 0.0) // Bright yellow
         }
     }
 }

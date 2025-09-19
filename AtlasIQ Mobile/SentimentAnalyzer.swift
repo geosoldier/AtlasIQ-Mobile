@@ -55,7 +55,8 @@ class SentimentAnalyzer: ObservableObject {
         return SentimentScore(
             score: combinedScore.score,
             confidence: combinedScore.confidence,
-            emotions: emotions
+            emotions: emotions,
+            breakdown: SentimentBreakdown(factors: [], summary: "Text analysis completed")
         )
     }
     
@@ -170,7 +171,7 @@ class SentimentAnalyzer: ObservableObject {
             return true
         }
         
-        return SentimentScore(score: sentimentScore, confidence: confidence, emotions: [:])
+        return SentimentScore(score: sentimentScore, confidence: confidence, emotions: [:], breakdown: SentimentBreakdown(factors: [], summary: "Natural language analysis"))
     }
     
     private func analyzeWithKeywords(_ text: String) -> SentimentScore {
@@ -193,13 +194,13 @@ class SentimentAnalyzer: ObservableObject {
         let totalKeywords = positiveCount + negativeCount + neutralCount
         
         if totalKeywords == 0 {
-            return SentimentScore(score: 0, confidence: 0, emotions: [:])
+            return SentimentScore(score: 0, confidence: 0, emotions: [:], breakdown: SentimentBreakdown(factors: [], summary: "No text to analyze"))
         }
         
         let score = Double(positiveCount - negativeCount) / Double(totalKeywords)
         let confidence = Double(totalKeywords) / Double(words.count)
         
-        return SentimentScore(score: score, confidence: confidence, emotions: [:])
+        return SentimentScore(score: score, confidence: confidence, emotions: [:], breakdown: SentimentBreakdown(factors: [], summary: "Keyword analysis"))
     }
     
     private func combineSentimentScores(_ nlScore: SentimentScore, _ keywordScore: SentimentScore) -> SentimentScore {
@@ -210,7 +211,7 @@ class SentimentAnalyzer: ObservableObject {
         let combinedScore = (nlScore.score * weightNL) + (keywordScore.score * weightKeywords)
         let combinedConfidence = (nlScore.confidence * weightNL) + (keywordScore.confidence * weightKeywords)
         
-        return SentimentScore(score: combinedScore, confidence: combinedConfidence, emotions: [:])
+        return SentimentScore(score: combinedScore, confidence: combinedConfidence, emotions: [:], breakdown: SentimentBreakdown(factors: [], summary: "Combined analysis"))
     }
     
     private func analyzeEmotions(_ text: String) -> [String: Double] {
@@ -278,12 +279,12 @@ class SentimentAnalyzer: ObservableObject {
             } else if let instagramPost = post as? InstagramPost {
                 return analyzeInstagramPost(instagramPost)
             } else {
-                return SentimentScore(score: 0, confidence: 0, emotions: [:])
+                return SentimentScore(score: 0, confidence: 0, emotions: [:], breakdown: SentimentBreakdown(factors: [], summary: "No text to analyze"))
             }
         }
         
         guard !sentiments.isEmpty else {
-            return SentimentScore(score: 0, confidence: 0, emotions: [:])
+            return SentimentScore(score: 0, confidence: 0, emotions: [:], breakdown: SentimentBreakdown(factors: [], summary: "No text to analyze"))
         }
         
         let averageScore = sentiments.map { $0.score }.reduce(0, +) / Double(sentiments.count)
@@ -305,7 +306,7 @@ class SentimentAnalyzer: ObservableObject {
             }
         }
         
-        return SentimentScore(score: averageScore, confidence: averageConfidence, emotions: combinedEmotions)
+        return SentimentScore(score: averageScore, confidence: averageConfidence, emotions: combinedEmotions, breakdown: SentimentBreakdown(factors: [], summary: "Overall sentiment analysis"))
     }
     
     private func calculatePlatformSentiment(_ posts: [FacebookPost]) -> SentimentScore {
@@ -327,7 +328,7 @@ class SentimentAnalyzer: ObservableObject {
             }
         }
         
-        return SentimentScore(score: averageScore, confidence: averageConfidence, emotions: combinedEmotions)
+        return SentimentScore(score: averageScore, confidence: averageConfidence, emotions: combinedEmotions, breakdown: SentimentBreakdown(factors: [], summary: "Overall sentiment analysis"))
     }
     
     private func calculatePlatformSentiment(_ posts: [InstagramPost]) -> SentimentScore {
@@ -349,7 +350,7 @@ class SentimentAnalyzer: ObservableObject {
             }
         }
         
-        return SentimentScore(score: averageScore, confidence: averageConfidence, emotions: combinedEmotions)
+        return SentimentScore(score: averageScore, confidence: averageConfidence, emotions: combinedEmotions, breakdown: SentimentBreakdown(factors: [], summary: "Overall sentiment analysis"))
     }
 }
 
