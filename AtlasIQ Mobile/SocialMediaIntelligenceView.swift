@@ -110,7 +110,7 @@ struct SocialMediaIntelligenceView: View {
         Task {
             do {
                 // Get current location with timeout
-                let location = try await withCheckedThrowingContinuation { continuation in
+                let location = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<CLLocation, Error>) in
                     // Set a timeout for location request
                     DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
                         continuation.resume(with: .failure(LocationError.locationNotAvailable))
