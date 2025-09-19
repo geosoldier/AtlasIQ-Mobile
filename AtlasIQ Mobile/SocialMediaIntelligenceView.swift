@@ -80,7 +80,21 @@ struct SocialMediaIntelligenceView: View {
         .onAppear {
             if locationManager.authorizationStatus == .notDetermined {
                 showLocationPermission = true
+            } else if locationManager.isLocationEnabled {
+                // If location is already enabled, show the welcome view
+                // User can tap "Analyze Local Sentiment" to proceed
             }
+        }
+        .onChange(of: locationManager.authorizationStatus) { status in
+            print("Location authorization status changed to: \(status.rawValue)")
+            if status == .authorizedWhenInUse || status == .authorizedAlways {
+                showLocationPermission = false
+                print("Location permission granted, dismissing permission view")
+                // Don't auto-analyze, let user choose when to analyze
+            }
+        }
+        .onChange(of: locationManager.isLocationEnabled) { isEnabled in
+            print("Location enabled status changed to: \(isEnabled)")
         }
     }
     
@@ -144,6 +158,11 @@ struct WelcomeView: View {
             Text("Monitor platforms, analyze sentiment")
                 .font(.headline)
                 .foregroundColor(.white)
+                .multilineTextAlignment(.center)
+            
+            Text("Tap below to analyze local sentiment from social media posts in your area")
+                .font(.caption)
+                .foregroundColor(.white.opacity(0.8))
                 .multilineTextAlignment(.center)
             
             Button("Analyze Local Sentiment") {

@@ -286,7 +286,10 @@ struct LocationPermissionView: View {
         .padding()
         .onChange(of: locationManager.authorizationStatus) { status in
             if status == .authorizedWhenInUse || status == .authorizedAlways {
-                onPermissionGranted()
+                // Small delay to ensure location is updated
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    onPermissionGranted()
+                }
             }
         }
     }
