@@ -232,14 +232,14 @@ struct SentimentResultsView: View {
                     title: "Facebook",
                     score: sentiment.facebookSentiment.score,
                     confidence: sentiment.facebookSentiment.confidence,
-                    color: .blue
+                    color: sentimentColor(sentiment.facebookSentiment.score)
                 )
                 
                 SentimentCard(
                     title: "Instagram",
                     score: sentiment.instagramSentiment.score,
                     confidence: sentiment.instagramSentiment.confidence,
-                    color: .purple
+                    color: sentimentColor(sentiment.instagramSentiment.score)
                 )
             }
             
@@ -249,10 +249,11 @@ struct SentimentResultsView: View {
                     .font(.headline)
                     .foregroundColor(.white)
                 
-                HStack {
+                VStack(spacing: 4) {
                     Text("Total Posts: \(sentiment.totalPosts)")
-                    Spacer()
+                        .multilineTextAlignment(.center)
                     Text("Updated: \(sentiment.timestamp, style: .time)")
+                        .multilineTextAlignment(.center)
                 }
                 .font(.caption)
                 .foregroundColor(.white.opacity(0.8))
@@ -262,11 +263,11 @@ struct SentimentResultsView: View {
     
     private func sentimentColor(_ score: Double) -> Color {
         if score > 0.2 {
-            return .green
+            return Color(red: 0.0, green: 1.0, blue: 0.0) // Bright green
         } else if score < -0.2 {
-            return .red
+            return Color(red: 1.0, green: 0.0, blue: 0.0) // Bright red
         } else {
-            return .yellow
+            return Color(red: 1.0, green: 1.0, blue: 0.0) // Bright yellow
         }
     }
 }
