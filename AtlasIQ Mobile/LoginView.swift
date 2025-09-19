@@ -4,8 +4,6 @@ import CryptoKit
 import FirebaseAuth
 
 struct LoginView: View {
-    @State private var username = ""
-    @State private var password = ""
     @State private var showMainPage = false
     @State private var currentNonce: String?
     
@@ -95,85 +93,13 @@ struct LoginView: View {
                     .cornerRadius(8)
                     .padding(.horizontal, 100)
                     
-                    // Login Form
-                    VStack(spacing: 20) {
-                        // Username Field
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Username")
-                                .font(.subheadline)
-                                .foregroundColor(.white)
-                            
-                            TextField("Enter username", text: $username)
-                                .textFieldStyle(PlainTextFieldStyle())
-                                .padding()
-                                .background(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(Color.white.opacity(0.1))
-                                        .stroke(Color.white.opacity(0.3), lineWidth: 1)
-                                )
-                                .foregroundColor(.white)
-                        }
-                        
-                        // Password Field
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Password")
-                                .font(.subheadline)
-                                .foregroundColor(.white)
-                            
-                            SecureField("Enter password", text: $password)
-                                .textFieldStyle(PlainTextFieldStyle())
-                                .padding()
-                                .background(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(Color.white.opacity(0.1))
-                                        .stroke(Color.white.opacity(0.3), lineWidth: 1)
-                                )
-                                .foregroundColor(.white)
-                        }
-                        
-                        // Login Button
-                        Button(action: {
-                            // For now, just navigate to main page
-                            // Later we'll add actual authentication logic
-                            showMainPage = true
-                        }) {
-                            HStack {
-                                Image(systemName: "person.circle")
-                                    .font(.title2)
-                                    .foregroundColor(.white)
-                                
-                                Text("Sign In")
-                                    .font(.title2)
-                                    .foregroundColor(.white)
-                            }
-                            .padding(.horizontal, 40)
-                            .padding(.vertical, 16)
-                            .frame(maxWidth: .infinity)
-                            .background(
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .fill(Color.clear)
-                                        .background(Color.white.opacity(0.05))
-                                    
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(
-                                            LinearGradient(
-                                                gradient: Gradient(colors: [
-                                                    Color.white.opacity(0.4),
-                                                    Color.clear,
-                                                    Color.black.opacity(0.3)
-                                                ]),
-                                                startPoint: .topLeading,
-                                                endPoint: .bottomTrailing
-                                            ),
-                                            lineWidth: 1.5
-                                        )
-                                }
-                            )
-                            .shadow(color: Color.black.opacity(0.3), radius: 8, x: 0, y: 4)
-                        }
+                    // Security message
+                    Text("Your security matters to us. Please sign in securely with your Apple ID.")
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.8))
+                        .multilineTextAlignment(.center)
                         .padding(.horizontal, 100)
-                    }
+                        .padding(.top, 16)
                     
                     Spacer()
                 }
