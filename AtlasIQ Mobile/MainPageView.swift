@@ -159,7 +159,7 @@ struct MainPageView: View {
                                     .foregroundColor(.white)
                                 
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("Reporting")
+                                    Text("Local Reporting")
                                         .font(.title2)
                                         .foregroundColor(.white)
                                         Text("Generate Activity Report")
