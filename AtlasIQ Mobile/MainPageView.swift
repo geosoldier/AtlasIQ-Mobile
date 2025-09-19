@@ -56,7 +56,7 @@ struct MainPageView: View {
                                     .foregroundColor(.white)
                                 
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("Social Media Intelligence")
+                                    Text("Local Sentiment")
                                         .font(.title2)
                                         .foregroundColor(.white)
                                         Text("Monitor platforms, analyze sentiment")
@@ -107,10 +107,10 @@ struct MainPageView: View {
                                     .foregroundColor(.white)
                                 
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("Threat Assessment")
+                                    Text("Local Threat")
                                         .font(.title2)
                                         .foregroundColor(.white)
-                                        Text("Predictive analytics and risk analysis")
+                                        Text("Local Risk Analysis")
                                             .font(.subheadline)
                                             .foregroundColor(.gray.opacity(0.8))
                                 }
@@ -159,10 +159,10 @@ struct MainPageView: View {
                                     .foregroundColor(.white)
                                 
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("Intelligence Reports")
+                                    Text("Reporting")
                                         .font(.title2)
                                         .foregroundColor(.white)
-                                        Text("Generate comprehensive OSINT reports")
+                                        Text("Generate Activity Report")
                                             .font(.subheadline)
                                             .foregroundColor(.gray.opacity(0.8))
                                 }
