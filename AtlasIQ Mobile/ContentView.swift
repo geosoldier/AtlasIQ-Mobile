@@ -8,21 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showMainPage = false
+    @State private var showLogin = false
     
     var body: some View {
         Group {
-            if showMainPage {
-                MainPageView()
+            if showLogin {
+                LoginView()
             } else {
                 SplashScreenView()
             }
         }
         .onAppear {
-            // Show splash screen for 2 seconds, then navigate to main page
+            // Show splash screen for 2 seconds, then navigate to login
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 withAnimation(.easeInOut(duration: 0.5)) {
-                    showMainPage = true
+                    showLogin = true
                 }
             }
         }
