@@ -78,11 +78,16 @@ struct SocialMediaIntelligenceView: View {
             }
         }
         .onAppear {
+            print("SocialMediaIntelligenceView appeared")
+            print("Current authorization status: \(locationManager.authorizationStatus.rawValue)")
+            print("Location enabled: \(locationManager.isLocationEnabled)")
+            
             if locationManager.authorizationStatus == .notDetermined {
+                print("Showing location permission sheet")
                 showLocationPermission = true
-            } else if locationManager.isLocationEnabled {
-                // If location is already enabled, show the welcome view
-                // User can tap "Analyze Local Sentiment" to proceed
+            } else if locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways {
+                print("Location already authorized, showing welcome view")
+                showLocationPermission = false
             }
         }
         .onChange(of: locationManager.authorizationStatus) { status in
@@ -99,11 +104,16 @@ struct SocialMediaIntelligenceView: View {
     }
     
     private func analyzeLocalSentiment() {
+        print("analyzeLocalSentiment() called")
+        print("Authorization status: \(locationManager.authorizationStatus.rawValue)")
+        
         guard locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways else {
+            print("Location not authorized, showing error")
             errorMessage = "Location access is required for local sentiment analysis"
             return
         }
         
+        print("Starting sentiment analysis...")
         isLoading = true
         errorMessage = nil
         
@@ -117,9 +127,12 @@ struct SocialMediaIntelligenceView: View {
             // Create mock sentiment data for Cambridge, UK
             let mockSentiment = createMockSentimentData(location: location)
             
+            print("Created mock sentiment data, updating UI...")
+            
             await MainActor.run {
                 self.localSentiment = mockSentiment
                 self.isLoading = false
+                print("UI updated with sentiment results")
             }
         }
     }
@@ -190,6 +203,7 @@ struct WelcomeView: View {
                 .multilineTextAlignment(.center)
             
             Button("Analyze Local Sentiment") {
+                print("Analyze button tapped")
                 onAnalyze()
             }
             .buttonStyle(.borderedProminent)
