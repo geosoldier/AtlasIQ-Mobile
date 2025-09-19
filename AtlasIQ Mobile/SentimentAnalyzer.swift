@@ -105,9 +105,9 @@ class SentimentAnalyzer: ObservableObject {
         guard !posts.isEmpty else {
             return LocalSentiment(
                 location: CLLocation(latitude: 0, longitude: 0),
-                overallSentiment: SentimentScore(score: 0, confidence: 0, emotions: [:]),
-                facebookSentiment: SentimentScore(score: 0, confidence: 0, emotions: [:]),
-                instagramSentiment: SentimentScore(score: 0, confidence: 0, emotions: [:]),
+                overallSentiment: SentimentScore(score: 0, confidence: 0, emotions: [:], breakdown: SentimentBreakdown(factors: [], summary: "No posts to analyze")),
+                facebookSentiment: SentimentScore(score: 0, confidence: 0, emotions: [:], breakdown: SentimentBreakdown(factors: [], summary: "No Facebook posts")),
+                instagramSentiment: SentimentScore(score: 0, confidence: 0, emotions: [:], breakdown: SentimentBreakdown(factors: [], summary: "No Instagram posts")),
                 totalPosts: 0,
                 timestamp: Date()
             )
@@ -268,7 +268,8 @@ class SentimentAnalyzer: ObservableObject {
         return SentimentScore(
             score: max(-1.0, min(1.0, adjustedScore)),
             confidence: adjustedConfidence,
-            emotions: sentiment.emotions
+            emotions: sentiment.emotions,
+            breakdown: sentiment.breakdown
         )
     }
     
