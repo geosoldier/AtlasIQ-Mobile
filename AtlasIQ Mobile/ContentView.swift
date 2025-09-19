@@ -43,7 +43,7 @@ struct SplashScreenView: View {
             Color.black.opacity(0.3)
                 .ignoresSafeArea()
             
-            VStack(spacing: 20) {
+            VStack(spacing: 8) {
                 Spacer()
                 
                     // AtlasIQ Logo/Title
