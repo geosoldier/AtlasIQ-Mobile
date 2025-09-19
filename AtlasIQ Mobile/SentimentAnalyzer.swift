@@ -7,13 +7,14 @@
 
 import Foundation
 import NaturalLanguage
+import CoreLocation
 
 // MARK: - Sentiment Analysis Engine
 class SentimentAnalyzer: ObservableObject {
     
     // MARK: - Properties
     private let sentimentTagger = NLTagger(tagSchemes: [.sentimentScore])
-    private let emotionTagger = NLTagger(tagSchemes: [.emotion])
+    private let emotionTagger = NLTagger(tagSchemes: [.sentimentScore])
     
     // Sentiment keywords for enhanced analysis
     private let positiveKeywords = [
@@ -213,23 +214,27 @@ class SentimentAnalyzer: ObservableObject {
     }
     
     private func analyzeEmotions(_ text: String) -> [String: Double] {
-        emotionTagger.string = text
+        // Since .emotion is not available in NLTagScheme, we'll use keyword analysis
+        let words = text.lowercased().components(separatedBy: .whitespacesAndNewlines)
         
         var emotions: [String: Double] = [:]
         
-        emotionTagger.enumerateTags(in: text.startIndex..<text.endIndex, unit: .paragraph, scheme: .emotion) { tag, range in
-            if let tag = tag {
-                let emotion = tag.rawValue
-                emotions[emotion] = (emotions[emotion] ?? 0) + 1.0
-            }
-            return true
-        }
+        // Define emotion keywords
+        let emotionKeywords: [String: [String]] = [
+            "joy": ["happy", "joyful", "excited", "thrilled", "delighted", "cheerful"],
+            "sadness": ["sad", "depressed", "down", "melancholy", "gloomy", "sorrowful"],
+            "anger": ["angry", "mad", "furious", "rage", "irritated", "annoyed"],
+            "fear": ["scared", "afraid", "terrified", "worried", "anxious", "nervous"],
+            "surprise": ["surprised", "shocked", "amazed", "astonished", "stunned"],
+            "disgust": ["disgusted", "revolted", "sickened", "repulsed", "appalled"]
+        ]
         
-        // Normalize emotion scores
-        let totalEmotions = emotions.values.reduce(0, +)
-        if totalEmotions > 0 {
-            for (emotion, count) in emotions {
-                emotions[emotion] = count / totalEmotions
+        for (emotion, keywords) in emotionKeywords {
+            let count = keywords.reduce(0) { count, keyword in
+                count + words.filter { $0.contains(keyword) }.count
+            }
+            if count > 0 {
+                emotions[emotion] = Double(count) / Double(words.count)
             }
         }
         
@@ -277,6 +282,10 @@ class SentimentAnalyzer: ObservableObject {
             }
         }
         
+        guard !sentiments.isEmpty else {
+            return SentimentScore(score: 0, confidence: 0, emotions: [:])
+        }
+        
         let averageScore = sentiments.map { $0.score }.reduce(0, +) / Double(sentiments.count)
         let averageConfidence = sentiments.map { $0.confidence }.reduce(0, +) / Double(sentiments.count)
         
@@ -301,12 +310,46 @@ class SentimentAnalyzer: ObservableObject {
     
     private func calculatePlatformSentiment(_ posts: [FacebookPost]) -> SentimentScore {
         let sentiments = posts.map { analyzeFacebookPost($0) }
-        return calculateOverallSentiment(sentiments.map { $0 as SocialMediaPost })
+        let averageScore = sentiments.map { $0.score }.reduce(0, +) / Double(sentiments.count)
+        let averageConfidence = sentiments.map { $0.confidence }.reduce(0, +) / Double(sentiments.count)
+        
+        var combinedEmotions: [String: Double] = [:]
+        for sentiment in sentiments {
+            for (emotion, value) in sentiment.emotions {
+                combinedEmotions[emotion] = (combinedEmotions[emotion] ?? 0) + value
+            }
+        }
+        
+        let totalEmotions = combinedEmotions.values.reduce(0, +)
+        if totalEmotions > 0 {
+            for (emotion, value) in combinedEmotions {
+                combinedEmotions[emotion] = value / totalEmotions
+            }
+        }
+        
+        return SentimentScore(score: averageScore, confidence: averageConfidence, emotions: combinedEmotions)
     }
     
     private func calculatePlatformSentiment(_ posts: [InstagramPost]) -> SentimentScore {
         let sentiments = posts.map { analyzeInstagramPost($0) }
-        return calculateOverallSentiment(sentiments.map { $0 as SocialMediaPost })
+        let averageScore = sentiments.map { $0.score }.reduce(0, +) / Double(sentiments.count)
+        let averageConfidence = sentiments.map { $0.confidence }.reduce(0, +) / Double(sentiments.count)
+        
+        var combinedEmotions: [String: Double] = [:]
+        for sentiment in sentiments {
+            for (emotion, value) in sentiment.emotions {
+                combinedEmotions[emotion] = (combinedEmotions[emotion] ?? 0) + value
+            }
+        }
+        
+        let totalEmotions = combinedEmotions.values.reduce(0, +)
+        if totalEmotions > 0 {
+            for (emotion, value) in combinedEmotions {
+                combinedEmotions[emotion] = value / totalEmotions
+            }
+        }
+        
+        return SentimentScore(score: averageScore, confidence: averageConfidence, emotions: combinedEmotions)
     }
 }
 

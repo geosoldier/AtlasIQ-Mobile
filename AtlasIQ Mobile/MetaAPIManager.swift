@@ -214,7 +214,9 @@ class MetaAPIManager: ObservableObject {
                 mediaType: item.mediaType,
                 mediaURL: item.mediaURL,
                 timestamp: item.timestamp,
-                location: item.location,
+                location: item.location.map { 
+                    CLLocation(latitude: $0.latitude, longitude: $0.longitude) 
+                },
                 likesCount: item.likeCount ?? 0,
                 commentsCount: item.commentsCount ?? 0
             )
@@ -300,9 +302,14 @@ struct InstagramMediaData: Codable {
     let mediaType: String
     let mediaURL: String
     let timestamp: Date
-    let location: CLLocation?
+    let location: InstagramLocationData?
     let likeCount: Int?
     let commentsCount: Int?
+}
+
+struct InstagramLocationData: Codable {
+    let latitude: Double
+    let longitude: Double
 }
 
 // MARK: - Errors
