@@ -24,7 +24,7 @@ struct SocialMediaIntelligenceView: View {
             VStack(spacing: 20) {
                 Spacer()
                 
-                Text("Social Media Intelligence")
+                Text("Local Sentiment")
                     .font(.system(size: 32, weight: .light, design: .default))
                     .foregroundColor(Color(red: 0.98, green: 0.98, blue: 0.98))
                     .shadow(color: Color.blue.opacity(0.8), radius: 8, x: 0, y: 0)
