@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import MapKit
 import SwiftUI
 
 // MARK: - Location Manager

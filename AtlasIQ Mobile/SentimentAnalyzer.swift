@@ -164,7 +164,7 @@ class SentimentAnalyzer: ObservableObject {
         
         sentimentTagger.enumerateTags(in: text.startIndex..<text.endIndex, unit: .paragraph, scheme: .sentimentScore) { tag, range in
             if let tag = tag {
-                sentimentScore = tag.rawValue
+                sentimentScore = Double(tag.rawValue) ?? 0.0
                 confidence = 0.8 // Natural Language framework confidence
             }
             return true
@@ -364,8 +364,10 @@ protocol SocialMediaPost {
 // MARK: - Extensions
 extension FacebookPost: SocialMediaPost {
     var text: String? { return message }
+    var timestamp: Date { return createdTime }
 }
 
 extension InstagramPost: SocialMediaPost {
     var text: String? { return caption }
+    var timestamp: Date { return self.timestamp }
 }
