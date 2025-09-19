@@ -61,7 +61,8 @@ struct SocialMediaIntelligenceView: View {
                     SentimentResultsView(
                         sentiment: sentiment,
                         showBreakdown: $showBreakdown,
-                        selectedBreakdown: $selectedBreakdown
+                        selectedBreakdown: $selectedBreakdown,
+                        breakdownData: $breakdownData
                     )
                     .onAppear {
                         print("SentimentResultsView appeared")
@@ -306,6 +307,7 @@ struct SentimentResultsView: View {
     let sentiment: LocalSentiment
     @Binding var showBreakdown: Bool
     @Binding var selectedBreakdown: SentimentBreakdown?
+    @Binding var breakdownData: SentimentBreakdown?
     
     var body: some View {
         VStack(spacing: 16) {
