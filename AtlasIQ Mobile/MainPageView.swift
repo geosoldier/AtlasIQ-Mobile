@@ -61,7 +61,7 @@ struct MainPageView: View {
                                         .foregroundColor(.white)
                                         Text("Monitor platforms, analyze sentiment")
                                             .font(.caption)
-                                            .foregroundColor(.gray)
+                                            .foregroundColor(.gray.opacity(0.8))
                                 }
                                 
                                 Spacer()
@@ -112,7 +112,7 @@ struct MainPageView: View {
                                         .foregroundColor(.white)
                                         Text("Predictive analytics and risk analysis")
                                             .font(.caption)
-                                            .foregroundColor(.gray)
+                                            .foregroundColor(.gray.opacity(0.8))
                                 }
                                 
                                 Spacer()
@@ -164,7 +164,7 @@ struct MainPageView: View {
                                         .foregroundColor(.white)
                                         Text("Generate comprehensive OSINT reports")
                                             .font(.caption)
-                                            .foregroundColor(.gray)
+                                            .foregroundColor(.gray.opacity(0.8))
                                 }
                                 
                                 Spacer()
