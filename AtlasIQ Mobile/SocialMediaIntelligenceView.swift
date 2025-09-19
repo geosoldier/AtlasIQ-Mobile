@@ -73,8 +73,9 @@ struct SocialMediaIntelligenceView: View {
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showLocationPermission) {
             LocationPermissionView(locationManager: locationManager) {
+                print("LocationPermissionView completion called")
                 showLocationPermission = false
-                analyzeLocalSentiment()
+                // Don't auto-analyze, let user tap the button
             }
         }
         .onAppear {

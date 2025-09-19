@@ -242,16 +242,20 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print("LocationManager: Authorization status changed to: \(status.rawValue)")
         DispatchQueue.main.async {
             self.authorizationStatus = status
             
             switch status {
             case .authorizedWhenInUse, .authorizedAlways:
+                print("LocationManager: Starting location updates")
                 self.startLocationUpdates()
             case .denied, .restricted:
+                print("LocationManager: Location access denied")
                 self.stopLocationUpdates()
                 self.errorMessage = "Location access denied. Please enable location access in Settings."
             case .notDetermined:
+                print("LocationManager: Location status not determined")
                 self.stopLocationUpdates()
             @unknown default:
                 break
@@ -315,7 +319,9 @@ struct LocationPermissionView: View {
         }
         .padding()
         .onChange(of: locationManager.authorizationStatus) { status in
+            print("LocationPermissionView: Authorization status changed to: \(status.rawValue)")
             if status == .authorizedWhenInUse || status == .authorizedAlways {
+                print("LocationPermissionView: Permission granted, calling completion")
                 // Small delay to ensure location is updated
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     onPermissionGranted()
