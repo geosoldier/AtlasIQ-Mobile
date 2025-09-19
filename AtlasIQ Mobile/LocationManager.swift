@@ -70,13 +70,37 @@ class LocationManager: NSObject, ObservableObject {
     
     /// Get current location with completion handler
     func getCurrentLocation(completion: @escaping (Result<CLLocation, Error>) -> Void) {
-        guard let location = location else {
-            completion(.failure(LocationError.locationNotAvailable))
+        // If we already have a location, return it immediately
+        if let location = location {
+            completion(.success(location))
             return
         }
         
-        completion(.success(location))
+        // If location services are not enabled, return error
+        guard isLocationEnabled else {
+            completion(.failure(LocationError.locationServicesDisabled))
+            return
+        }
+        
+        // Start location updates if not already running
+        if !isLocationEnabled {
+            startLocationUpdates()
+        }
+        
+        // Set up a timeout
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            if self.location == nil {
+                completion(.failure(LocationError.locationNotAvailable))
+            }
+        }
+        
+        // The location will be updated via the delegate method
+        // We'll store the completion handler to call it when location is available
+        self.locationCompletion = completion
     }
+    
+    // Store completion handler for location requests
+    private var locationCompletion: ((Result<CLLocation, Error>) -> Void)?
     
     /// Search for places near current location
     func searchNearbyPlaces(query: String, completion: @escaping (Result<[CLLocation], Error>) -> Void) {
@@ -202,6 +226,12 @@ extension LocationManager: CLLocationManagerDelegate {
         DispatchQueue.main.async {
             self.location = location
             self.reverseGeocodeLocation(location)
+            
+            // Call completion handler if we have one waiting
+            if let completion = self.locationCompletion {
+                completion(.success(location))
+                self.locationCompletion = nil
+            }
         }
     }
     
