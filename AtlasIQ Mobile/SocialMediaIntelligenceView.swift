@@ -64,9 +64,6 @@ struct SocialMediaIntelligenceView: View {
                         selectedBreakdown: $selectedBreakdown,
                         breakdownStore: breakdownStore
                     )
-                    .onAppear {
-                        print("SentimentResultsView appeared")
-                    }
                 } else if let error = errorMessage {
                     ErrorView(message: error) {
                         analyzeLocalSentiment()
@@ -118,43 +115,11 @@ struct SocialMediaIntelligenceView: View {
             print("Location enabled status changed to: \(isEnabled)")
         }
         .sheet(isPresented: $showBreakdown) {
-            VStack {
-                Text("Debug: showBreakdown=\(showBreakdown), selectedBreakdown=\(selectedBreakdown?.factors.count ?? 0), breakdownStore=\(breakdownStore.breakdown?.factors.count ?? 0)")
-                    .font(.caption)
-                    .foregroundColor(.red)
+            if let breakdown = breakdownStore.breakdown ?? selectedBreakdown {
+                SentimentBreakdownView(breakdown: breakdown)
+            } else {
+                Text("No breakdown data available")
                     .padding()
-                    .onAppear {
-                        print("Sheet appeared with selectedBreakdown: \(selectedBreakdown?.factors.count ?? 0) factors")
-                        print("Sheet appeared with breakdownStore: \(breakdownStore.breakdown?.factors.count ?? 0) factors")
-                    }
-                
-                Text("selectedBreakdown is nil: \(selectedBreakdown == nil)")
-                    .font(.caption)
-                    .foregroundColor(.blue)
-                    .padding()
-                
-                Text("breakdownStore is nil: \(breakdownStore.breakdown == nil)")
-                    .font(.caption)
-                    .foregroundColor(.purple)
-                    .padding()
-                
-                if let breakdown = breakdownStore.breakdown ?? selectedBreakdown {
-                    Text("Breakdown found: \(breakdown.factors.count) factors")
-                        .font(.caption)
-                        .foregroundColor(.green)
-                        .padding()
-                    
-                    SentimentBreakdownView(breakdown: breakdown)
-                        .onAppear {
-                            print("Presenting breakdown with \(breakdown.factors.count) factors")
-                        }
-                } else {
-                    Text("No breakdown data available")
-                        .padding()
-                        .onAppear {
-                            print("No breakdown selected")
-                        }
-                }
             }
         }
     }
@@ -319,13 +284,9 @@ struct SentimentResultsView: View {
                 color: sentimentColor(sentiment.overallSentiment.score),
                 isTappable: true
             ) {
-                print("Overall sentiment tapped - breakdown: \(sentiment.overallSentiment.breakdown)")
                 selectedBreakdown = sentiment.overallSentiment.breakdown
                 breakdownStore.setBreakdown(sentiment.overallSentiment.breakdown)
-                print("selectedBreakdown set to: \(selectedBreakdown?.factors.count ?? 0) factors")
-                print("breakdownStore set to: \(breakdownStore.breakdown?.factors.count ?? 0) factors")
                 showBreakdown = true
-                print("showBreakdown set to: \(showBreakdown)")
             }
             
             // Platform-specific sentiment
@@ -451,11 +412,6 @@ struct SentimentBreakdownView: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    // Debug info
-                    Text("Debug: \(breakdown.factors.count) factors")
-                        .font(.caption)
-                        .foregroundColor(.red)
-                        .padding()
                     // Summary
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Summary")
@@ -582,7 +538,6 @@ class BreakdownStore: ObservableObject {
     @Published var breakdown: SentimentBreakdown?
     
     func setBreakdown(_ breakdown: SentimentBreakdown) {
-        print("BreakdownStore: Setting breakdown with \(breakdown.factors.count) factors")
         self.breakdown = breakdown
     }
 }
