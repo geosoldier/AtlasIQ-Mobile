@@ -265,7 +265,9 @@ struct SentimentResultsView: View {
             ) {
                 print("Overall sentiment tapped - breakdown: \(sentiment.overallSentiment.breakdown)")
                 selectedBreakdown = sentiment.overallSentiment.breakdown
+                print("selectedBreakdown set to: \(selectedBreakdown?.factors.count ?? 0) factors")
                 showBreakdown = true
+                print("showBreakdown set to: \(showBreakdown)")
             }
             
             // Platform-specific sentiment
@@ -310,17 +312,24 @@ struct SentimentResultsView: View {
             }
         }
         .sheet(isPresented: $showBreakdown) {
-            if let breakdown = selectedBreakdown {
-                SentimentBreakdownView(breakdown: breakdown)
-                    .onAppear {
-                        print("Presenting breakdown with \(breakdown.factors.count) factors")
-                    }
-            } else {
-                Text("No breakdown data available")
+            VStack {
+                Text("Debug: showBreakdown=\(showBreakdown), selectedBreakdown=\(selectedBreakdown?.factors.count ?? 0)")
+                    .font(.caption)
+                    .foregroundColor(.red)
                     .padding()
-                    .onAppear {
-                        print("No breakdown selected")
-                    }
+                
+                if let breakdown = selectedBreakdown {
+                    SentimentBreakdownView(breakdown: breakdown)
+                        .onAppear {
+                            print("Presenting breakdown with \(breakdown.factors.count) factors")
+                        }
+                } else {
+                    Text("No breakdown data available")
+                        .padding()
+                        .onAppear {
+                            print("No breakdown selected")
+                        }
+                }
             }
         }
     }
