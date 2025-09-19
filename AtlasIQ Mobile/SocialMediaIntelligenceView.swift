@@ -17,6 +17,8 @@ struct SocialMediaIntelligenceView: View {
     @State private var isLoading = false
     @State private var errorMessage: String?
     @State private var showLocationPermission = false
+    @State private var showBreakdown = false
+    @State private var selectedBreakdown: SentimentBreakdown?
     
     var body: some View {
         ZStack {
@@ -51,7 +53,11 @@ struct SocialMediaIntelligenceView: View {
                         .foregroundColor(.white)
                         .shadow(color: Color.blue.opacity(0.6), radius: 6, x: 0, y: 0)
                 } else if let sentiment = localSentiment {
-                    SentimentResultsView(sentiment: sentiment)
+                    SentimentResultsView(
+                        sentiment: sentiment,
+                        showBreakdown: $showBreakdown,
+                        selectedBreakdown: $selectedBreakdown
+                    )
                 } else if let error = errorMessage {
                     ErrorView(message: error) {
                         analyzeLocalSentiment()
@@ -99,10 +105,31 @@ struct SocialMediaIntelligenceView: View {
                 // Don't auto-analyze, let user choose when to analyze
             }
         }
-        .onChange(of: locationManager.isLocationEnabled) { isEnabled in
-            print("Location enabled status changed to: \(isEnabled)")
+            .onChange(of: locationManager.isLocationEnabled) { isEnabled in
+                print("Location enabled status changed to: \(isEnabled)")
+            }
         }
-    }
+        .sheet(isPresented: $showBreakdown) {
+            VStack {
+                Text("Debug: showBreakdown=\(showBreakdown), selectedBreakdown=\(selectedBreakdown?.factors.count ?? 0)")
+                    .font(.caption)
+                    .foregroundColor(.red)
+                    .padding()
+                
+                if let breakdown = selectedBreakdown {
+                    SentimentBreakdownView(breakdown: breakdown)
+                        .onAppear {
+                            print("Presenting breakdown with \(breakdown.factors.count) factors")
+                        }
+                } else {
+                    Text("No breakdown data available")
+                        .padding()
+                        .onAppear {
+                            print("No breakdown selected")
+                        }
+                }
+            }
+        }
     
     private func analyzeLocalSentiment() {
         print("analyzeLocalSentiment() called")
@@ -250,8 +277,8 @@ struct WelcomeView: View {
 
 struct SentimentResultsView: View {
     let sentiment: LocalSentiment
-    @State private var showBreakdown = false
-    @State private var selectedBreakdown: SentimentBreakdown?
+    @Binding var showBreakdown: Bool
+    @Binding var selectedBreakdown: SentimentBreakdown?
     
     var body: some View {
         VStack(spacing: 16) {
@@ -309,27 +336,6 @@ struct SentimentResultsView: View {
                 }
                 .font(.caption)
                 .foregroundColor(.white.opacity(0.8))
-            }
-        }
-        .sheet(isPresented: $showBreakdown) {
-            VStack {
-                Text("Debug: showBreakdown=\(showBreakdown), selectedBreakdown=\(selectedBreakdown?.factors.count ?? 0)")
-                    .font(.caption)
-                    .foregroundColor(.red)
-                    .padding()
-                
-                if let breakdown = selectedBreakdown {
-                    SentimentBreakdownView(breakdown: breakdown)
-                        .onAppear {
-                            print("Presenting breakdown with \(breakdown.factors.count) factors")
-                        }
-                } else {
-                    Text("No breakdown data available")
-                        .padding()
-                        .onAppear {
-                            print("No breakdown selected")
-                        }
-                }
             }
         }
     }
