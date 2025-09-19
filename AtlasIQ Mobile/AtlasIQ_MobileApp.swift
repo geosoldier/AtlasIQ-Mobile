@@ -6,9 +6,14 @@
 //
 
 import SwiftUI
+import FirebaseCore
 
 @main
 struct AtlasIQ_MobileApp: App {
+    init() {
+        // Configure Firebase at app launch
+        FirebaseApp.configure()
+    }
     var body: some Scene {
         WindowGroup {
             ContentView()
