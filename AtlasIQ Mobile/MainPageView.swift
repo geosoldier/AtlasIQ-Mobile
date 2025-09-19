@@ -26,8 +26,8 @@ struct MainPageView: View {
                     Spacer()
                     
                     // AtlasIQ Logo/Title
-                    Text("AtlasIQ")
-                        .font(.system(size: 48, weight: .light, design: .default))
+                        Text("AtlasIQ")
+                            .font(.system(size: 64, weight: .light, design: .default))
                         .foregroundColor(Color(red: 0.98, green: 0.98, blue: 0.98)) // Bone white
                         .shadow(color: Color.blue.opacity(1.0), radius: 8, x: 0, y: 0)
                         .shadow(color: Color.blue.opacity(0.9), radius: 16, x: 0, y: 0)
