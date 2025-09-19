@@ -129,6 +129,7 @@ struct SocialMediaIntelligenceView: View {
                 }
             }
         }
+    }
     
     private func analyzeLocalSentiment() {
         print("analyzeLocalSentiment() called")
