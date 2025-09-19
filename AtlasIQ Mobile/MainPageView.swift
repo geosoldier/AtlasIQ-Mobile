@@ -22,7 +22,7 @@ struct MainPageView: View {
                 Color.black.opacity(0.3)
                     .ignoresSafeArea()
                 
-                VStack(spacing: 40) {
+                VStack(spacing: 8) {
                     Spacer()
                     
                     // AtlasIQ Logo/Title
