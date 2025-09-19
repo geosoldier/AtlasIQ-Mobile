@@ -105,9 +105,8 @@ struct SocialMediaIntelligenceView: View {
                 // Don't auto-analyze, let user choose when to analyze
             }
         }
-            .onChange(of: locationManager.isLocationEnabled) { isEnabled in
-                print("Location enabled status changed to: \(isEnabled)")
-            }
+        .onChange(of: locationManager.isLocationEnabled) { isEnabled in
+            print("Location enabled status changed to: \(isEnabled)")
         }
         .sheet(isPresented: $showBreakdown) {
             VStack {
