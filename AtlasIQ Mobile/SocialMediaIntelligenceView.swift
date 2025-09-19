@@ -263,6 +263,7 @@ struct SentimentResultsView: View {
                 color: sentimentColor(sentiment.overallSentiment.score),
                 isTappable: true
             ) {
+                print("Overall sentiment tapped - breakdown: \(sentiment.overallSentiment.breakdown)")
                 selectedBreakdown = sentiment.overallSentiment.breakdown
                 showBreakdown = true
             }
@@ -310,7 +311,12 @@ struct SentimentResultsView: View {
         }
         .sheet(isPresented: $showBreakdown) {
             if let breakdown = selectedBreakdown {
+                print("Presenting breakdown with \(breakdown.factors.count) factors")
                 SentimentBreakdownView(breakdown: breakdown)
+            } else {
+                print("No breakdown selected")
+                Text("No breakdown data available")
+                    .padding()
             }
         }
     }
@@ -395,6 +401,11 @@ struct SentimentBreakdownView: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
+                    // Debug info
+                    Text("Debug: \(breakdown.factors.count) factors")
+                        .font(.caption)
+                        .foregroundColor(.red)
+                        .padding()
                     // Summary
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Summary")
