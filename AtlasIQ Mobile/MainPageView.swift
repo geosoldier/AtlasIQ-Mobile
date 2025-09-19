@@ -57,10 +57,10 @@ struct MainPageView: View {
                                 
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Social Media Intelligence")
-                                        .font(.headline)
+                                        .font(.title2)
                                         .foregroundColor(.white)
                                         Text("Monitor platforms, analyze sentiment")
-                                            .font(.caption)
+                                            .font(.subheadline)
                                             .foregroundColor(.gray.opacity(0.8))
                                 }
                                 
@@ -108,10 +108,10 @@ struct MainPageView: View {
                                 
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Threat Assessment")
-                                        .font(.headline)
+                                        .font(.title2)
                                         .foregroundColor(.white)
                                         Text("Predictive analytics and risk analysis")
-                                            .font(.caption)
+                                            .font(.subheadline)
                                             .foregroundColor(.gray.opacity(0.8))
                                 }
                                 
@@ -160,10 +160,10 @@ struct MainPageView: View {
                                 
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Intelligence Reports")
-                                        .font(.headline)
+                                        .font(.title2)
                                         .foregroundColor(.white)
                                         Text("Generate comprehensive OSINT reports")
-                                            .font(.caption)
+                                            .font(.subheadline)
                                             .foregroundColor(.gray.opacity(0.8))
                                 }
                                 
