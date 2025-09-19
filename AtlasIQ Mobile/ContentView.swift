@@ -8,6 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var showLogin = false
+    
+    var body: some View {
+        Group {
+            if showLogin {
+                LoginView()
+            } else {
+                SplashScreenView()
+            }
+        }
+        .onAppear {
+            // Show splash screen for 2 seconds, then navigate to login
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    showLogin = true
+                }
+            }
+        }
+    }
+}
+
+struct SplashScreenView: View {
     var body: some View {
         ZStack {
             // Background - Satellite map focused on DC area
@@ -21,12 +43,12 @@ struct ContentView: View {
             Color.black.opacity(0.3)
                 .ignoresSafeArea()
             
-            VStack(spacing: 20) {
+            VStack(spacing: 8) {
                 Spacer()
                 
                     // AtlasIQ Logo/Title
-                    Text("AtlasIQ")
-                        .font(.system(size: 48, weight: .light, design: .default))
+                        Text("AtlasIQ")
+                            .font(.system(size: 64, weight: .light, design: .default))
                         .foregroundColor(Color(red: 0.98, green: 0.98, blue: 0.98)) // Bone white
                         .shadow(color: Color.blue.opacity(1.0), radius: 8, x: 0, y: 0)
                         .shadow(color: Color.blue.opacity(0.9), radius: 16, x: 0, y: 0)
