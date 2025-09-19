@@ -39,13 +39,17 @@ class LocationManager: NSObject, ObservableObject {
     
     /// Request location permission
     func requestLocationPermission() {
+        print("requestLocationPermission() called, current status: \(authorizationStatus.rawValue)")
         switch authorizationStatus {
         case .notDetermined:
+            print("Requesting when-in-use authorization")
             locationManager.requestWhenInUseAuthorization()
         case .denied, .restricted:
+            print("Location access denied or restricted")
             // Show alert to user about enabling location in settings
             errorMessage = "Location access is required for local sentiment analysis. Please enable location access in Settings."
         case .authorizedWhenInUse, .authorizedAlways:
+            print("Location already authorized")
             startLocationUpdates()
         @unknown default:
             break
@@ -305,6 +309,7 @@ struct LocationPermissionView: View {
                 .foregroundColor(.secondary)
             
             Button("Enable Location Access") {
+                print("Enable Location Access button tapped")
                 locationManager.requestLocationPermission()
             }
             .buttonStyle(.borderedProminent)
