@@ -369,5 +369,5 @@ extension FacebookPost: SocialMediaPost {
 
 extension InstagramPost: SocialMediaPost {
     var text: String? { return caption }
-    var timestamp: Date { return self.timestamp }
+    // timestamp property already exists in InstagramPost struct
 }
