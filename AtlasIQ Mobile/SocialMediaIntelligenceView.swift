@@ -125,7 +125,17 @@ struct SocialMediaIntelligenceView: View {
                         print("Sheet appeared with selectedBreakdown: \(selectedBreakdown?.factors.count ?? 0) factors")
                     }
                 
+                Text("selectedBreakdown is nil: \(selectedBreakdown == nil)")
+                    .font(.caption)
+                    .foregroundColor(.blue)
+                    .padding()
+                
                 if let breakdown = selectedBreakdown {
+                    Text("Breakdown found: \(breakdown.factors.count) factors")
+                        .font(.caption)
+                        .foregroundColor(.green)
+                        .padding()
+                    
                     SentimentBreakdownView(breakdown: breakdown)
                         .onAppear {
                             print("Presenting breakdown with \(breakdown.factors.count) factors")
