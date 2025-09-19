@@ -23,6 +23,7 @@ struct SocialMediaIntelligenceView: View {
             print("selectedBreakdown changed to: \(selectedBreakdown?.factors.count ?? 0) factors")
         }
     }
+    @State private var breakdownData: SentimentBreakdown?
     
     var body: some View {
         ZStack {
@@ -117,12 +118,13 @@ struct SocialMediaIntelligenceView: View {
         }
         .sheet(isPresented: $showBreakdown) {
             VStack {
-                Text("Debug: showBreakdown=\(showBreakdown), selectedBreakdown=\(selectedBreakdown?.factors.count ?? 0)")
+                Text("Debug: showBreakdown=\(showBreakdown), selectedBreakdown=\(selectedBreakdown?.factors.count ?? 0), breakdownData=\(breakdownData?.factors.count ?? 0)")
                     .font(.caption)
                     .foregroundColor(.red)
                     .padding()
                     .onAppear {
                         print("Sheet appeared with selectedBreakdown: \(selectedBreakdown?.factors.count ?? 0) factors")
+                        print("Sheet appeared with breakdownData: \(breakdownData?.factors.count ?? 0) factors")
                     }
                 
                 Text("selectedBreakdown is nil: \(selectedBreakdown == nil)")
@@ -130,7 +132,12 @@ struct SocialMediaIntelligenceView: View {
                     .foregroundColor(.blue)
                     .padding()
                 
-                if let breakdown = selectedBreakdown {
+                Text("breakdownData is nil: \(breakdownData == nil)")
+                    .font(.caption)
+                    .foregroundColor(.purple)
+                    .padding()
+                
+                if let breakdown = breakdownData ?? selectedBreakdown {
                     Text("Breakdown found: \(breakdown.factors.count) factors")
                         .font(.caption)
                         .foregroundColor(.green)
@@ -312,7 +319,9 @@ struct SentimentResultsView: View {
             ) {
                 print("Overall sentiment tapped - breakdown: \(sentiment.overallSentiment.breakdown)")
                 selectedBreakdown = sentiment.overallSentiment.breakdown
+                breakdownData = sentiment.overallSentiment.breakdown
                 print("selectedBreakdown set to: \(selectedBreakdown?.factors.count ?? 0) factors")
+                print("breakdownData set to: \(breakdownData?.factors.count ?? 0) factors")
                 showBreakdown = true
                 print("showBreakdown set to: \(showBreakdown)")
             }
