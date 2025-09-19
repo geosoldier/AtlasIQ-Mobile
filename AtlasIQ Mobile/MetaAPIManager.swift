@@ -161,7 +161,9 @@ class MetaAPIManager: ObservableObject {
                 id: post.id,
                 message: post.message,
                 createdTime: post.createdTime,
-                location: post.place?.location,
+                location: post.place?.location.map { 
+                    CLLocation(latitude: $0.latitude, longitude: $0.longitude) 
+                },
                 pageName: post.pageName ?? "Unknown",
                 likesCount: post.likes?.summary?.totalCount ?? 0,
                 commentsCount: post.comments?.summary?.totalCount ?? 0,
