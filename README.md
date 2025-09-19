@@ -13,9 +13,11 @@ A SwiftUI-based iOS application for AtlasIQ.
 
 ## 📱 Features
 
-- Modern SwiftUI interface
-- Clean, responsive design
-- Ready for feature development
+- **Authentication System**: Sign in with Apple integration
+- **Firebase Integration**: Secure user management and data storage
+- **Modern SwiftUI Interface**: Clean, responsive design with liquid glass aesthetics
+- **Professional OSINT Platform**: Intelligence analysis tools
+- **Security-First Design**: Privacy-focused authentication and data handling
 
 ## 🛠 Development Setup
 
@@ -31,12 +33,24 @@ A SwiftUI-based iOS application for AtlasIQ.
    cd atlasiq-mobile
    ```
 
-2. Open the project in Xcode:
+2. **Configure Firebase** (Required for authentication):
+   - Create a Firebase project at https://console.firebase.google.com/
+   - Add iOS app with Bundle ID: `eric.AtlasIQ-Mobile`
+   - Download `GoogleService-Info.plist` and add to Xcode project
+   - Enable Sign in with Apple in Firebase Authentication
+   - Configure Apple Developer credentials (Team ID, Key ID, Private Key)
+
+3. **Configure Apple Sign in**:
+   - Enable "Sign in with Apple" capability in Xcode
+   - Set Apple Developer Team ID in project settings
+   - Ensure proper entitlements are configured
+
+4. Open the project in Xcode:
    ```bash
    open "AtlasIQ Mobile.xcodeproj"
    ```
 
-3. Build and run the project (`Cmd+R`)
+5. Build and run the project (`Cmd+R`)
 
 ## 🔄 CI/CD Pipeline
 
@@ -65,13 +79,20 @@ This project is configured with **Xcode Cloud** for continuous integration and d
 
 ```
 AtlasIQ Mobile/
-├── AtlasIQ Mobile/           # Main app source code
-│   ├── AtlasIQ_MobileApp.swift    # App entry point
-│   ├── ContentView.swift          # Main view
-│   └── Assets.xcassets/           # App assets and icons
-├── AtlasIQ MobileTests/      # Unit tests
-├── AtlasIQ MobileUITests/    # UI tests
-└── README.md                # This file
+├── AtlasIQ Mobile/                    # Main app source code
+│   ├── AtlasIQ_MobileApp.swift       # App entry point with Firebase initialization
+│   ├── ContentView.swift             # Root view with authentication flow
+│   ├── LoginView.swift               # Sign in with Apple authentication
+│   ├── MainPageView.swift            # Main navigation with 3 OSINT options
+│   ├── SocialMediaIntelligenceView.swift    # Social media analysis tools
+│   ├── ThreatAssessmentView.swift           # Threat assessment features
+│   ├── IntelligenceReportsView.swift        # Report generation
+│   ├── GoogleService-Info.plist      # Firebase configuration (local only)
+│   ├── AtlasIQ Mobile.entitlements   # Sign in with Apple entitlements
+│   └── Assets.xcassets/              # App assets and icons
+├── AtlasIQ MobileTests/              # Unit tests
+├── AtlasIQ MobileUITests/            # UI tests
+└── README.md                         # This file
 ```
 
 ## 🧪 Testing
@@ -88,10 +109,15 @@ AtlasIQ Mobile/
 
 ## 📦 Dependencies
 
-Currently using only Apple frameworks:
-- SwiftUI
-- Foundation
-- UIKit (for legacy support if needed)
+### Apple Frameworks
+- **SwiftUI**: Modern UI framework
+- **Foundation**: Core functionality
+- **AuthenticationServices**: Sign in with Apple
+- **CryptoKit**: Cryptographic operations for authentication
+
+### Third-Party Dependencies
+- **Firebase Core**: Firebase initialization and configuration
+- **Firebase Auth**: User authentication and management
 
 ## 🚀 Deployment
 
@@ -117,10 +143,17 @@ Currently using only Apple frameworks:
 - **Version**: 1.0
 - **Build Number**: 1
 
+### Authentication Configuration
+- **Sign in with Apple**: Enabled with proper entitlements
+- **Firebase Integration**: Configured with secure API keys
+- **Apple Developer Team**: Configured for authentication
+- **Privacy Protection**: Apple Private Relay email support
+
 ### Signing
 - Automatic signing enabled
 - Development team configured
 - Provisioning profiles managed automatically
+- Sign in with Apple capability enabled
 
 ## 📝 Development Guidelines
 
@@ -133,6 +166,7 @@ Currently using only Apple frameworks:
 - Use feature branches for new features
 - Merge to `main` via pull requests
 - Keep commits atomic and descriptive
+- **Security Note**: Never commit `GoogleService-Info.plist` or API keys
 
 ### Testing Requirements
 - All new features must include tests
@@ -155,11 +189,26 @@ This project is proprietary software. All rights reserved.
 
 For questions or support, please contact the development team.
 
+## 🔒 Security Features
+
+### Authentication Security
+- **Sign in with Apple**: Privacy-focused authentication
+- **Firebase Security**: Secure user management and data storage
+- **API Key Protection**: Configuration files excluded from version control
+- **Apple Private Relay**: User email privacy protection
+- **Secure Nonce Generation**: Cryptographic security for authentication
+
+### Data Protection
+- **No Password Storage**: Apple handles all authentication
+- **Encrypted Communication**: All Firebase communications encrypted
+- **Privacy-First Design**: Minimal data collection approach
+
 ---
 
-**Last Updated**: September 16, 2025  
+**Last Updated**: September 19, 2025  
 **Xcode Cloud Status**: ✅ Active  
-**Build Status**: ✅ Passing
+**Build Status**: ✅ Passing  
+**Authentication**: ✅ Sign in with Apple + Firebase
 
 
 
